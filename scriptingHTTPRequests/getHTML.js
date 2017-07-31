@@ -1,25 +1,23 @@
-function getHTML (url, printHTML) {
+var bufferData = "";
+
+module.exports = function getHTML(url, callback) {
   var https = require('https');
-  var bufferData = "";
 
 https.get(url, function(response) {
   response.setEncoding('utf8');
 
   response.on('data', function(data) {
     bufferData += data;
+    // console.log(bufferData);
   });
   response.on('end', function() {
-    printHTML(bufferData);
+    return callback (bufferData);
   });
 });
 }
 
-function printHTML(bufferData){
-  console.log(bufferData);
-}
+// function printHTML(bufferData){
+//   console.log(bufferData);
+// }
 
-var requestOptions = {
-    host: 'sytantris.github.io',
-    path: '/http-examples/step4.html'
-  };
-getHTML(requestOptions, printHTML);
+// getHTML(requestOptions, printHTML);
