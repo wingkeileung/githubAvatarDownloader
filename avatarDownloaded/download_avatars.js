@@ -34,10 +34,11 @@ function downloadImageByURL(url, filepath){
 }
 
 getRepoContributors(wtf[0], wtf[1], function(err, result) {
-  // var str = JSON.parse();
-  // var nArry = [];
-  for (var i = 0; i < result.length; i++) {
+  if (!wtf[0] || !wtf[1] ){
+    console.log ("ERROR - NO INPUT")
+  } else {
+    for (var i = 0; i < result.length; i++) {
     downloadImageByURL(result[i].avatar_url, "avatars/"+result[i].login);
-      // nArry.push(bdy[i].avatar_url);
   }
+}
 });
