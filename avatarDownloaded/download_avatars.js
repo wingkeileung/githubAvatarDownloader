@@ -1,6 +1,7 @@
 var request = require('request');
 var fs = require('fs');
 var newBody = "";
+var wtf = process.argv.slice(2);
 
 var GITHUB_USER = "wingkeileung"
 var GITHUB_TOKEN = "95f23002c8c37a6c0d003a396db47ee326476562"
@@ -16,11 +17,27 @@ var options = {
 
 request(options, function(err, respnose, body) {
   newBody = JSON.parse(body)
-  cb(err, newBody)
-  console.log(newBody)
+  cb(null, newBody)
+  // console.log(newBody)
 })
 
 }
-getRepoContributors("jquery", "jquery", function(err, result) {
-  console.log(newBody)
+function downloadImageByURL(url, filepath){
+  request.get(url)
+    .on('error', function (err) {
+      throw err;
+    })
+    .on('response', function (response) {
+      console.log('Response Status Code: ', response.statusCode, response.statusMessage, response.headers['content-type']);
+    })
+    .pipe(fs.createWriteStream(filepath));
+}
+
+getRepoContributors(wtf[0], wtf[1], function(err, result) {
+  // var str = JSON.parse();
+  // var nArry = [];
+  for (var i = 0; i < result.length; i++) {
+    downloadImageByURL(result[i].avatar_url, "avatars/"+result[i].login);
+      // nArry.push(bdy[i].avatar_url);
+  }
 });
